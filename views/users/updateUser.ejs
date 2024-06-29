@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/form.css" />
+    <title>Update User</title>
+  </head>
+  <body>
+    <!--navbar-->
+    <%- include("../partials/navbar") %>
+
+    <div class="form-container">
+      <!-- icon -->
+      <h1>
+        Update User
+        <i class="fas fa-user-plus"></i>
+      </h1>
+
+    <%if(error){ %>
+         <small class="error">
+          <i class="fas fa-exclamation-circle"></i>
+         <%= error %>
+        </small>
+    <%}%>
+      <form action="/api/v1/users/update?_method=PUT" method="POST">
+        <!-- full name -->
+        <label for="name">Full Name</label>
+        <input type="text" name="fullname" value="<%= user?.fullname %>" />
+        <!-- email -->
+        <label for="email">Email</label>
+        <input type="email" name="email" value="<%= user?.email %>" />
+
+        <button type="submit">Update</button>
+      </form>
+    </div>
+
+    <!--footer-->
+    <%- include("../partials/footer") %>
+  </body>
+</html>

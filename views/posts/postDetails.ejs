@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="stylesheet" href="/css/postDetails.css" />
+    <title>Post Details</title>
+  </head>
+  <body>
+    <!-- nav -->
+    <%- include("../partials/navbar.ejs") %>
+
+    <!--for error-->
+    <% if(error){ %>
+      <small class="error">
+        <i class="fas fa-exclamation-circle"></i>
+        <%=error %>
+      </small>
+    <% } %>
+
+    <!-- content -->
+    <section class="container-flex-2">
+      <!-- main -->
+      <main>
+        <article class="post-detail-content">
+          <img src="<%= post?.image %>" alt="" class="post-detail-image" />
+         
+          <% if(userAuth){ %>
+             <% if(post?.user._id.toString()=== userAuth.toString()){%>
+            <div class="post-details-action">
+              <!--updating the post-->
+              <a href="/api/v1/posts/update-post-form/<%= post?._id%>" class="post-update">
+                <i class="fas fa-edit"></i>
+              </a>
+              <!--deleting the post-->
+              <form action="<%=post?._id %>?_method=DELETE"  method=POST class="post-delete">
+                <button>
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+          </div>
+          <%}%>
+          <%} %>
+         
+
+          <h1 class="post-title"><%= post?.title %></h1>
+          <p class="post-body">
+            <%= post?.description %>
+          </p>
+        </article>
+        <!-- Comment form -->
+        <div class="comment-form">
+          <h2>Leave a comment</h2>
+          <form action="/api/v1/comments/<%=post?._id%>" method="POST">
+            <div class="form-group">
+              <input type="text" name="message"/>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+          </form>
+        </div>
+
+        <!-- comments -->
+        <div class="comments">
+          <h2>Comments</h2>
+          <%if(post?.comments.length<=0){%>
+              post has no comment yet
+          <%}else{ %>
+              <%post?.comments.forEach(comment => {%>
+                <div class="comment">
+            <div class="comment-info">
+              <img
+                src="<%=comment?.user.profileImage%>"
+                alt="user-image"
+                class="comment-author-image"
+              />
+              <div class="comment-author">
+                <h4><%=comment?.user.fullname%></h4>
+                <span><%=comment?.createdAt.toLocaleString()%></span>
+              </div>
+            </div>
+            <div class="comment-body">
+              <p>
+                <%= comment?.message %>
+              </p>
+              <!-- delete/update icon -->
+              <% if(comment?.user?._id.toString()===userAuth?.toString()){ %>
+                <div class="post-details-action">
+                  <a href="/api/v1/comments/<%= comment?._id%>" class="comment-update">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <!--deleting the post-->
+                  <form action="/api/v1/comments/<%=comment?._id %>?_method=DELETE&postId=<%=post?._id%>"  method=POST class="comment-delete">
+                    <button>
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </div>
+              <%}%>
+              
+            </div>
+                </div> 
+              <%});%>
+          <%}%>
+                 
+        </div>
+      </main>
+      <!-- aside -->
+      <aside class="sidebar">
+        <div class="about-me">
+          <h2>About The Author</h2>
+          <img class="avatar" src="<%=post?.user.profileImage%>" alt="" />
+
+          <h2 class="about-name"><%= post?.user.fullname %></h2>
+          <small><%= post?.user.role%></small>
+          <p class="about-me-bio">
+            <%= post?.user.about %>
+          </p>
+        </div>
+
+        <!--similar blog list-->
+        <div class="similar-blogs">
+          <h1 >Suggested Posts</h1>
+              <% if(similarPosts?.length>0){ %>
+                    <%similarPosts.forEach((blog)=>{%>
+                          <article  class="blog-content">
+                            <a href="/api/v1/posts/<%= blog?._id %>">
+                              <%=blog?.title  %></a>
+                          </article>
+                    <%}) %> 
+              <%}%>
+        </div>
+      </aside>
+    </section>
+    <!--footer-->
+    <%- include("../partials/footer.ejs") %>
+  </body>
+</html>

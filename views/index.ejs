@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Blog App</title>
+  </head>
+  <body>
+    <!--navbar-->
+    <%- include("./partials/navbar.ejs") %>
+
+    <!-- header -->
+    <header>
+      <div class="header-content">
+        <h1>You write, We read</h1>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores
+          reiciendis
+        </p>
+        <a href="/api/v1/posts/create-post-form">
+          <span>Create New Post</span>
+        </a>
+      </div>
+    </header>
+    <!-- Latest post title -->
+
+    <div class="latest-post-title">
+      <!-- Icon -->
+      <div class="icon">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <h1>Latest Posts (20)</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+        voluptates.
+      </p>
+    </div>
+
+    <!-- content -->
+    <section class="container-flex" >
+     <% if(posts.length<=0){%>
+        
+     <%}else{%>
+        <% posts.forEach((post)=>{ %>
+          <article class="post-content"id="post-navigation">
+          
+            <img src="<%= post?.image %>" alt="" class="post-image" />
+            <p class="post-info">
+              <span class="post-author">
+                <i class="fas fa-user"></i>
+                <a href="#"><%= post?.user.fullname %></a>
+              </span>
+              <span class="post-date">
+                <i class="far fa-calendar-alt"></i>
+                <time datetime="2020-01-01"><%= post?.createdAt.toLocaleString() %></time>
+              </span>
+            </p>
+            <h1 class="post-title"><%= post?.title %></h1>
+            <p class="post-body">
+              <%= truncatePost(post?.description)%>
+            </p>
+            <!-- category -->
+            <div class="post-category">
+              <span><%= post?.category %>:</span>
+              
+            </div>
+            <a href="/api/v1/posts/<%=post?._id%>" class="post-read-more">Continue Reading...</a>
+          </article>
+       <% }) %>
+     <%} %>
+         
+    </section>
+
+
+   
+    <div class="pagination">
+        <% for(let i=1;i<=pages;i++){%>
+            <% if(i===1) {%>
+              <div><a href="/"><%= i %></a></div>
+           <% }else{%>
+              <div><a href="/?page=<%= i %>"><%= i %></a></div>
+           <%  } %>
+            
+        <%} %>
+        </div>
+
+    <!--footer-->
+    <%- include("./partials/footer.ejs") %>
+
+  </body>
+</html>

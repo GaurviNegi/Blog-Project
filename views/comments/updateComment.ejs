@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/form.css" />
+    <title>Update Comment</title>
+  </head>
+  <body>
+  
+     <!--navbar-->
+     <%- include("../partials/navbar") %>
+
+    <div class="form-container">
+      <!-- icon -->
+      <h1>Update Comment</h1>
+      <p>
+        <!-- lock icon -->
+        <i class="fas fa-lock"></i>
+      </p>
+
+      <% if(error){ %>
+        <small class="error">
+          <i class="fas fa-exclamation-circle"></i>
+          <%=error %>
+        </small>
+      <% } %>
+
+      <form action="/api/v1/comments/<%= comment._id%>?_method=PUT" method="POST" >
+        <label for="message">Message</label>
+        <input type="text" name="message" value="<%=comment?.message%>"/>
+
+        <button type="submit">update</button>
+
+      </form>
+    </div>
+
+    <!--footer-->
+    <%- include("../partials/footer") %>
+  </body>
+</html>

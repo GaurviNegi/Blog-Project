@@ -1,0 +1,69 @@
+
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/form.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <!--navbar-->
+    <%- include("../partials/navbar.ejs") %>
+
+    <div class="form-container">
+      <!-- icon -->
+      <h1>
+        Add Post
+
+        <!-- add icon -->
+        <i class="fas fa-plus"></i>
+      </h1>
+
+      <% if(error){%>
+          <small class="error">
+        <i class="fas fa-exclamation-circle"></i>
+        <%= error%>
+      </small>
+      <% } %>
+
+      <form action="/api/v1/posts" method="POST" enctype="multipart/form-data">
+        <!-- Post Title -->
+        <div class="input-wrapper">
+          <label for="name">Post Title</label>
+          <input type="text" name="title" id="name" />
+          <!-- err -->
+        </div>
+
+        <!-- Category -->
+        <div class="input-wrapper">
+          <label for="category">Category</label>
+          <select name="category" id="category">
+            <option value="Web Development">Web Development</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Cloud Computing">Cloud Computing</option>
+            <option value="Android Development">Android Development</option>
+            <option value="Cyber Security">Cyber Security</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Data Structures">Data Structures</option>
+            <option value="other">other</option>
+          </select>
+          <!-- err -->
+        </div>
+        <div class="input-wrapper">
+          <!-- Post Body -->
+          <label for="body">Post Body</label>
+          <textarea name="description" id="body" cols="30" rows="10"></textarea>
+          <!-- err -->
+        </div>
+        <!-- Post Image -->
+        <div class="input-wrapper">
+          <label for="image">Post Image</label>
+          <input type="file" name="file" id="image" />
+          <!-- err -->
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+    </div>
+
+    <!--footer-->
+    <%- include("../partials/footer.ejs") %>
+

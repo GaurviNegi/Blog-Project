@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/uploadPhoto.css" />
+  
+    <title>Upload Cover Photo</title>
+  </head>
+  <body>
+
+    <!--navbar-->
+    <%- include("../partials/navbar") %>
+
+    <div class="form-container">
+      <!-- icon -->
+      <h1>Upload Cover photo</h1>
+      <p>
+        <!-- upload icon -->
+      </p>
+      
+      <% if(error){%>
+        <small class="error">
+          <i class="fas fa-exclamation-circle"></i>
+          <%= error %>
+        </small>
+      <% } %>
+      
+      <form action="/api/v1/users/cover-photo-upload?_method=PUT" method="POST" enctype="multipart/form-data">
+        <label for="email">Select Image</label>
+        <input type="file" name="cover"/>
+        <button type="submit">
+          <i class="fas fa-upload"></i>
+        </button>
+      </form>
+    </div>
+
+    <!--footer-->
+    <%- include("../partials/footer") %>
+  </body>
+</html>

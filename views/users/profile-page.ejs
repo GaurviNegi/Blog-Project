@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/profile.css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <!--navbar-->
+    <%- include("../partials/navbar") %>
+
+
+    <div class="profile-container">
+      <header
+        style="
+          background-image: url(<%=user?.coverImage%>);
+        "
+      >
+        <div class="icons-container">
+          <p>
+            <a href="/api/v1/users/cover-photo-upload-form">
+              <i class="fas fa-solid fa-camera upload-btn"></i></a>
+          </p>
+          <p>
+            <a href="/api/v1/users/<%=user?._id%>">
+              <i class="fas fa-solid fa-edit"></i>
+          </p>
+         
+          <p>
+            <a href="/api/v1/users/update-user-password-form">
+              <i class="fas fa-solid fa-key"></i></a>
+          </p>
+        </div>
+        
+      </header>
+
+      <!-- profile image -->
+      <div class="profile-img">
+        <img
+          src=<%=user?.profileImage %>
+          alt="profile image"
+        />
+        <!-- upload profile image icon -->
+        <a href="/api/v1/users/profile-photo-upload-form">
+          <i class="fas fa-camera upload-btn"></i>
+        </a>
+       
+      </div>
+      <!-- personal details -->
+      <div class="personal-container">
+        <div class="details-wrapper">
+          <div class="details">
+            <i class="fas fa-user"></i>
+            <p>Name: <%=user?.fullname %></p>
+          </div>
+          <div class="details">
+            <i class="fas fa-envelope"></i>
+            <p>Email: <%=user?.email %></p>
+          </div>
+          <!-- date joined -->
+          <div class="details">
+            <i class="fas fa-calendar"></i>
+            <p>Date Joined: <%=(user?.createdAt).toLocaleString() %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="latest-post-title">
+      <!-- Icon -->
+      <i class="fas fa-book-open"></i>
+      <h1>Total Posts (<%= user?.posts?.length %>)</h1> 
+    </div>
+
+    <!-- content -->
+    <section class="container-flex">
+      <% if(user?.posts.length<=0){ %>
+          <h1 style="color:red"><i class="fas fa-exclamation-circle"></i>
+            you have no post yet</h1>
+     <%} else{%>
+      <%user?.posts.forEach((post)=>{ %>
+       
+       <article class="post-content">    
+       <img src="<%=post?.image%>" alt="" class="post-image" />
+       <p class="post-info">
+         <span class="post-author">
+           <i class="fas fa-user"></i>
+           <a href="#"><%=user?.fullname%></a>
+         </span>
+         <span class="post-date">
+           <i class="far fa-calendar-alt"></i>
+           <time datetime="2020-01-01"><%=post?.createdAt.toLocaleString()%></time>
+         </span>
+       </p><h1 class="post-title"><%=post?.title%></h1>
+       <p class="post-body">
+        <%= truncatePost(post?.description)%>
+       </p>
+       <!-- category -->
+       <div class="post-category">
+         <span><%=post?.category%></span>
+       </div>
+       <a  href="/api/v1/posts/<%=post?._id%>" class="post-read-more">Continue Reading...</a>
+     </article>
+
+      <%})%>
+     
+   <%}%>
+          
+    </section>
+    <!-- footer -->
+    <%- include("../partials/footer") %>
+  </body>
+</html>
+
+
